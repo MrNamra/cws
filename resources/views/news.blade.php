@@ -12,7 +12,7 @@
                 @foreach ($newses as $news)
                     <tr>
                         <td>
-                            <a href="#" class="card col-12 main-card-body">
+                            <a href="{{route('newsid', $news->id)}}" class="card col-12 main-card-body">
                                 <div class="card-body">
                                     <h3 class="card-title">{{ $news->title }}</h3>
                                     <h5 class="card-text">{{ $news->short_dec }}</h5>

@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function raju($id) {
-        echo $id;
+    public function GetNewsByID($id) {
+        $news = news::find($id);
+        return view('SingleNews',['news'=> $news]);
+
     }
     
     public function index() {
@@ -46,21 +48,43 @@ class NewsController extends Controller
         return response()->json($response);
     }
 
+    public function UpdateNews($id) {
+        $news = news::find($id);
+        return view('admin.PostNews', ['news'=>$news]);
+    }
     public function PostNews(Request $request) {
         $request->validate([
             'newstitle' => 'required|string',
             'shortDec' => 'required|string',
             'dec' => 'required|string',
+            'id' => 'nullable|numeric',
         ]);
-        $post = new news();
+        $post = null;
+        if($request->input('id')){
+            $post = news::find($request->input('id'))->first();
+            if($post){
+                $post->update([
+                    'title' => $request->input('newstitle'),
+                    'short_dec' => $request->input('shortDec'),
+                    'dec' => $request->input('dec'),
+                    'added_by' => auth()->user()->id,
+                ]);
+                return redirect(route('postnews'))->with('message', 'Post Update Successfully!');
+            }
 
-        $post->title = $request->input('newstitle');
-        $post->short_dec = $request->input('shortDec');
-        $post->dec = $request->input('dec');
-        $post->added_by = auth()->user()->id;
+        return redirect(route('postnews'))->with('message', 'Post Fail To Update!');
+        }else{
 
-        $post->save();
+            $post = new news();
+            
+            $post->title = $request->input('newstitle');
+            $post->short_dec = $request->input('shortDec');
+            $post->dec = $request->input('dec');
+            $post->added_by = auth()->user()->id;
+            
+            $post->save();
+            return redirect(route('postnews'))->with('message', 'Post Added Successfully!');
+        }
 
-        return redirect(route('postnews'))->with('message', 'Post Added Successfully!');
     }
 }
