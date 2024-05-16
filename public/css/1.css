@@ -1,0 +1,62 @@
+body {
+    background-image: url('http://cws.000.pe/public/ram.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-position: center; */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+h1{
+    color: aliceblue !important;
+}
+content {
+    flex: 1;
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+.tcenter{
+
+    align-content: center;
+}
+table {
+    /* background-color: rgba(255, 255, 255, 0.8); Adjust the alpha channel to control transparency */
+    backdrop-filter: blur(3px); 
+    border-collapse: collapse;
+    width: 90%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    border: 2px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    color: aliceblue;
+    /* background-color: #f2f2f228; */
+}
+
+th {
+    border: 2px solid #ddd;
+    /* backdrop-filter: blur(2px);  */
+    background-color: #ffffff80;
+}
+.card-info {
+    backdrop-filter: blur(3px); 
+    background-color: #ffffff65;
+}
+
+.main-card-body{
+    color: white;
+    backdrop-filter: blur(3px); 
+    background-color: #ffffff26 !important;
+    text-decoration: none
+}
