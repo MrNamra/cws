@@ -8,6 +8,7 @@ use App\Models\collages;
 use App\Models\departments;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class CollegeController extends Controller
 {
@@ -127,8 +128,48 @@ class CollegeController extends Controller
     }
 
     public function DeleteAssignment(Request $req){
-        dd($req->all());
-        $req->validate(['']);
+        $req->validate([
+            'ass_id' => 'required|numeric',
+        ]);
+        $ass = $req->has('ass')?1:0;
+        $dep = $req->has('dep')?1:0;
+        $clg = $req->has('clg')?1:0;
+        $err_mes=null;
+        $mes= '';
+
+        $assignment = assignments::select('id', 'dep_id', 'clg_id')->find($req->input('ass_id'));
+        if($ass){
+            $status = $assignment->delete();
+            if($status){
+                $mes = 'Assginmnent';
+            }
+        }
+        if($dep){
+            $dep = assignments::where('dep_id', $assignment->dep_id)->first();
+            if($dep->count() < 1){
+                $dep->delete();
+                $mes .= ', Department';
+                $err_mes=null;
+            }else{
+                $err_mes = 'Department Still Have Assignamnet Delete it First.';
+            }
+        }
+        if($clg){
+            $clg = departments::where('clg_id', $assignment->clg_id)->first();
+            if($clg->count() < 1){
+                $clg->delete();
+                $mes .= '... And Collage';
+                $err_mes=null;
+            }else{
+                $err_mes = 'Selected Collage have still remaing Department.';
+            }
+        }
+        if($err_mes){
+            return response(json_encode(['type'=>'fail', 'mesage'=>$mes. ' '. $err_mes]));
+        }
+        $mes .= " Deleted Successfull";
+
+        return response(json_encode(['type'=>'success', 'mesage'=>$mes]));
     }
 
     public function generateRandomString()

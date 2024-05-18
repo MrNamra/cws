@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CollegeController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SubmitAssignmentController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
@@ -19,7 +20,7 @@ Route::get('/clear', function () {
 Route::get('/helloworld', function () {
     echo "<h1>Hello World!</h1>";
 });
-Route::get('/answer', [NewsController::class, 'index'])->name('ans');
+Route::get('/answer', [SubmitAssignmentController::class, 'index'])->name('ans');
 Route::get('/whatsnew', [NewsController::class, 'index'])->name('new');
 Route::get('/whatsnew/news{id}', [NewsController::class, 'GetNewsByID'])->where('id', '[0-9]+')->name('newsid');
 Route::get('/news/{id}', [NewsController::class, 'raju'])->name('news1');
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/addclg', [CollegeController::class, 'AddCollege'])->name('addclg');
         Route::post('/adddep', [CollegeController::class, 'AddDepartment'])->name('add_dep');
         Route::post('/addass', [CollegeController::class, 'AddAssignment'])->name('addass');
-        Route::post('/deleteass', [CollegeController::class, 'DeleteAssignment'])->name('deleteass');
+        Route::delete('/deleteass', [CollegeController::class, 'DeleteAssignment'])->name('deleteass');
         Route::get('/addnew', [DashboardController::class, 'AddForms'])->name('addui');
         Route::get('/getFromData', [DashboardController::class, 'getAllDetailsById'])->name('getFromData');
         Route::get('/postnews', [DashboardController::class, 'PostNews'])->name('postnews');

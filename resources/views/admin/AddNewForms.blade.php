@@ -268,7 +268,7 @@
                 </div>
                 <form method="post" id="deleteThing">
                     @csrf
-                    <input type="hidden" name="ass_id" id="ass_id"/>
+                    <input type="hidden" name="ass_id" id="modal_ass_id"/>
                     <div class="modal-body">
                         <p>Select Which Things You want to delete</p>
                         <div class="form-group">
@@ -374,9 +374,7 @@
             $('#addDep').on('submit', function(e) {
                 e.preventDefault();
                 var clg = $('#clg_drop_dep').select2('data')[0]['id'];
-                console.log(clg);
                 var formData = $(this).serialize();
-                console.log(formData);
                 $.ajax({
                     url: "{{ route('add_dep') }}",
                     type: "post",
@@ -453,9 +451,10 @@
             });
             $(document).on('click', '#delete', function() {
                 $('#modal-default').modal('show');
-                $('#ass_id').val($(this).attr('data-id'));
+                alert($(this).attr('data-id'));
+                $('#modal_ass_id').val($(this).attr('data-id'));
             });
-            $(document).on('submit', '#submit_ass', function(e){
+            $(document).on('submit', '#deleteThing', function(e){
                 e.preventDefault();
                 var formData = $(this).serialize();
                 $.ajax({
@@ -466,13 +465,14 @@
                         res = $.parseJSON(res);
                         if(res.type == 'success'){
                             $('#modal-default').modal('hide');
-                            toastr.success("Delete SuccessFull!");
+                            toastr.success(res.mesage);
                         }else{
                             $('#modal-default').modal('hide');
-                            toastr.error(res.message);
+                            toastr.error(res.mesage);
                         }
                     },
                     error:function(err){
+                        toastr.error("Something Want wrong Please Refresh the page and try again!");
                         console.log(err);
                     }
                 });
