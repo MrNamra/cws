@@ -13,6 +13,9 @@ class DashboardController extends Controller
     public function index() {
         return view('admin.dashboard');
     }
+    public function contact() {
+        return view('ContactUs');
+    }
     public function getdep(Request $req) {
         $req->validate([ 'clg_id' => 'required|numeric']);
         $dep = departments::where('clg_id', $req->input('clg_id'))->get();

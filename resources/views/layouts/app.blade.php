@@ -60,11 +60,12 @@
                             Need Help?
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{route('ans')}}">Submit Answer</a></li>
+                            {{-- <li><a class="dropdown-item" href="{{route('ans')}}">Submit Answer</a></li> --}}
+                            <li><a class="dropdown-item" href="https://forms.gle/pnag51ARfEkXQe1L6">Submit Answer</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
+                            <li><a class="dropdown-item" href="{{route('contact')}}">Contact Us</a></li>
                         </ul>
                     </li>
                 </ul>

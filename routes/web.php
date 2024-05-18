@@ -9,7 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 require_once __DIR__.'/auth.php';
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -20,6 +20,7 @@ Route::get('/clear', function () {
 Route::get('/helloworld', function () {
     echo "<h1>Hello World!</h1>";
 });
+Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
 Route::get('/answer', [SubmitAssignmentController::class, 'index'])->name('ans');
 Route::get('/whatsnew', [NewsController::class, 'index'])->name('new');
 Route::get('/whatsnew/news{id}', [NewsController::class, 'GetNewsByID'])->where('id', '[0-9]+')->name('newsid');
