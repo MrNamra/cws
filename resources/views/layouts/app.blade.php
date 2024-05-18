@@ -40,7 +40,7 @@
 <body class="d-flex flex-column min-vh-100" id="bodyid" data-bs-theme="dark">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Assignment</a>
+            <a class="navbar-brand" href="{{ url('/') }}">Assignment</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -61,7 +61,6 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{route('ans')}}">Submit Answer</a></li>
-                            <li><a class="dropdown-item" href="report.html">Report Mistake</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

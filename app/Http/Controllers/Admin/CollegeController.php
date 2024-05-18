@@ -126,6 +126,10 @@ class CollegeController extends Controller
         return response(json_encode($dec));
     }
 
+    public function DeleteAssignment(Request $req){
+        dd($req->all());
+        $req->validate(['']);
+    }
 
     public function generateRandomString()
     {

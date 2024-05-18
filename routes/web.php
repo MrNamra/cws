@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/addclg', [CollegeController::class, 'AddCollege'])->name('addclg');
         Route::post('/adddep', [CollegeController::class, 'AddDepartment'])->name('add_dep');
         Route::post('/addass', [CollegeController::class, 'AddAssignment'])->name('addass');
+        Route::post('/deleteass', [CollegeController::class, 'DeleteAssignment'])->name('deleteass');
         Route::get('/addnew', [DashboardController::class, 'AddForms'])->name('addui');
         Route::get('/getFromData', [DashboardController::class, 'getAllDetailsById'])->name('getFromData');
         Route::get('/postnews', [DashboardController::class, 'PostNews'])->name('postnews');

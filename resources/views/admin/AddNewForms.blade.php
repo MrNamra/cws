@@ -233,8 +233,13 @@
                                     <td>{{ $ass->year }}</td>
                                     <td>{{ $ass->title }}</td>
                                     <td>{{ $ass->type }}</td>
-                                    <td><button class="btn btn-primary" data-id="{{ $ass->id }}"
-                                            id="detailUpdate">Update</button></td>
+                                    <td>
+                                        <button class="btn btn-primary" data-id="{{ $ass->id }}"
+                                            id="detailUpdate"><i class="fas fa-arrow-alt-circle-up"
+                                                aria-hidden="true"></i></button>
+                                        <button class="btn btn-danger" data-id="{{ $ass->id }}" id="delete"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -251,8 +256,44 @@
     </section>
 @endsection
 @section('script')
-<!-- Summernote -->
-{{-- <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script> --}}
+    {{-- modal --}}
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete?Are You Sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="deleteThing">
+                    @csrf
+                    <input type="hidden" name="ass_id" id="ass_id"/>
+                    <div class="modal-body">
+                        <p>Select Which Things You want to delete</p>
+                        <div class="form-group">
+                            <input type="checkbox" name="ass" id="ass" /><label for="ass">This
+                                Assignment</label><br>
+                            <input type="checkbox" name="dep" id="dep" /><label for="dep">This
+                                Department</label><br>
+                            <input type="checkbox" name="clg" id="clg" /><label for="clg">This
+                                College</label>
+                        </div>
+                        <small>Remember:- if any assiginemnt/department/college assosiated with any one then it will be not
+                            delete</small>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm Delete</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Summernote -->
+    {{-- <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script> --}}
 
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -305,7 +346,7 @@
                 });
             });
 
-            //add Collage
+            //add College
             $('#addClg').on('submit', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
@@ -379,21 +420,21 @@
 
                         $('#full_clg').val(res.clg.full_name);
                         $('#short_clg').val(res.clg.short_name);
-                        
+
                         $('#clg_drop').val(res.clg_id);
                         $('#clg_drop').val(res.clg_id).trigger('change.select2');
                         $('#clg_drop').trigger('change');
-                        
+
                         $('#ass_type').val(res.type);
                         $('#ass_type').select2();
 
                         $('#clg_drop_dep').val(res.clg_id);
                         $('#clg_drop_dep').select2();
-                        
+
                         // editor.destroy().catch( error => {
                         //     console.log( error );
                         // } );
-                        
+
                         // $('#ass_dec').empty();
                         // $('#ass_dec').append(res.dec);
                         $('#a_title').val(res.title);
@@ -410,13 +451,40 @@
                     error: function(err) {}
                 });
             });
+            $(document).on('click', '#delete', function() {
+                $('#modal-default').modal('show');
+                $('#ass_id').val($(this).attr('data-id'));
+            });
+            $(document).on('submit', '#submit_ass', function(e){
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: "{{route('deleteass')}}",
+                    type: "DELETE",
+                    data: formData,
+                    success:function(res){
+                        res = $.parseJSON(res);
+                        if(res.type == 'success'){
+                            $('#modal-default').modal('hide');
+                            toastr.success("Delete SuccessFull!");
+                        }else{
+                            $('#modal-default').modal('hide');
+                            toastr.error(res.message);
+                        }
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+            });
         });
-        function ckeditor(){
+
+        function ckeditor() {
             // ClassicEditor
             // .create(document.querySelector('#ass_dec'), {
             //     // plugins: [ Image ],
             //     ckfinder: {
-            //         uploadUrl: "{{asset('news/connector')}}?_token={{csrf_token()}}&command=QuickUpload&type=Files&responseType=json",
+            //         uploadUrl: "{{ asset('news/connector') }}?_token={{ csrf_token() }}&command=QuickUpload&type=Files&responseType=json",
             //     }
             // })
             // .then(editor => {
@@ -425,21 +493,11 @@
             // .catch(error => {
             //     console.error(error);
             // });
-            
+
             // Summernote
             $('#ass_dec').summernote();
 
         }
         ckeditor();
     </script>
-    <style>
-        .ck-powered-by {
-            display: none;
-        }
-
-        .ck-editor__editable[role="textbox"] {
-            /* Editing area */
-            min-height: 200px;
-        }
-    </style>
 @endsection

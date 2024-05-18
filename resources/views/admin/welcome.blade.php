@@ -19,10 +19,10 @@
             <thead>
                 <tr>
                     <td>
-                        <b>Collage Short Name</b>
+                        <b>College Short Name</b>
                     </td>
                     <td>
-                        <b>Collage Full Name</b>
+                        <b>College Full Name</b>
                     </td>
                     <td>
                         <b>Link</b>

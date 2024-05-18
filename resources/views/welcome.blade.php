@@ -13,8 +13,8 @@
                 <table class="tcenter" id="maintable">
                     <thead>
                         <th>Index</th>
-                        <th>CollageShort Name</th>
-                        <th>CollageFull Name</th>
+                        <th>CollegeShort Name</th>
+                        <th>CollegeFull Name</th>
                         <th>Link</th>
                         <!-- <th>3</th> -->
                     </thead>
