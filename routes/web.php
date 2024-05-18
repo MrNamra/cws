@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::any('/news/connector', [NewsController::class, 'ckupload'])->name('ckimg');
+    
     Route::group(["prefix" => 'admin/'], function(){
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/getdep', [DashboardController::class, 'getdep'])->name('getdep');
@@ -43,7 +44,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/postnews', [DashboardController::class, 'PostNews'])->name('postnews');
         Route::post('/postnews', [NewsController::class, 'PostNews'])->name('postnewscontent');
         Route::get('/postnews/{id}', [NewsController::class, 'UpdateNews'])->where('id', '[0-9]+')->name('updatenews');
-        Route::get('/report', [TicketController::class, 'ShowReport'])->name('report');
+        Route::get('/viewreport', [TicketController::class, 'ShowReport'])->name('report');
+        Route::patch('/closereport', [TicketController::class, 'CloseReport'])->name('closeTicket');
         Route::get('/assignment', [DashboardController::class, 'ShowSubmitAssignment'])->name('showsubassignment');
 
     });

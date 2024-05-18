@@ -18,7 +18,7 @@
                                 <label for="clg">Enter College Name</label>
                                 <form method="POST" id="addClg">
                                     @csrf
-                                    <input type="hidden" value="null" name="id" id="clg_id">
+                                    <input type="hidden" value="" name="id" id="clg_id">
                                     <div class="row">
                                         <div class="col-5">
                                             <input type="text" name="clg_full_name" class="form-control" id="full_clg"
@@ -57,7 +57,7 @@
                         <div class="col-md-9">
                             <form method="post" id="addDep">
                                 @csrf
-                                <input type="hidden" value="null" name="id" id="dep_id">
+                                <input type="hidden" value="" name="id" id="dep_id">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label>Select College</label>
@@ -109,7 +109,7 @@
                         <form method="POST" action="{{ route('addass') }}" enctype="multipart/form-data" id="submit_ass">
                             @csrf
                             <div class="col-md-6">
-                                <input type="hidden" value="null" name="id" id="ass_id">
+                                <input type="hidden" value="" name="id" id="ass_id">
                                 <div class="form-group">
                                     <label>Select College</label>
                                     <select class="form-control select2" name="clg_id" id="clg_drop" style="width: 100%;">

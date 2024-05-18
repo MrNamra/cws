@@ -34,7 +34,14 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-
+<style>
+    .badge-success{
+        background-color: #28a745 !important;
+    }
+    .badge-danger{
+        background-color: #dc3545 !important;
+    }
+</style>
 </head>
 
 <body class="font-sans antialiased sidebar-mini">

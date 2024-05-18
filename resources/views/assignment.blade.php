@@ -185,6 +185,10 @@
         </a>
     @endsection
     @section('script')
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
+    <!-- Toastr -->
+    <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
         <script>
             var Aid = null;
             $(document).ready(function() {
@@ -207,7 +211,9 @@
                             $('#dec-body').empty();
                             $('#dec-body').append(response.dec);
                         },
-                        error: function(err) {}
+                        error: function(err) {
+                            console.log(err);
+                        }
                     })
                     $('#modal-lg').modal('show');
                 });
@@ -220,25 +226,27 @@
                     $('#modal-report').modal('show');
                     $('#report-body').empty();
                     $('#report-body').html(`
-                    <form method="POST" id="report-as">
-                        <div class="form-group">
-                            <label for="title">Subject</label>
-                            <input type="text" class="form-control" id="title" placeholder="Subject" name="title" />
-                            
-                            <label for="description">Description</label>
-                            {{-- <input type="text" class="form-control" id="description" placeholder="Enter Reason Why You Report This?" name="description" /> --}}
-                            <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter Reason Why You Report This?" name="description" ></textarea>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="title">Can Admin Get Contact You?</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Your Contact Info Eg:Email,InstaGram etc.." name="contect" />
-                            <small>Your Contact Info Never Share with anybody. Stay Free</small>
-                        </div>
-                        <div class="form-group mt-3">
-                            <button type="submit" class="btn btn-danger float-end">Report</button>
-                        </div>
-                    </form>
-                `);
+                        <form method="POST" id="report-as">
+                            <div class="form-group">
+                                <label for="title">Subject</label><span style="color: red;">*</span>
+                                <input type="text" class="form-control" id="title" placeholder="Subject" name="title" required />
+                                
+                                <label for="description">Description</label><span style="color: red;">*</span>
+                                {{-- <input type="text" class="form-control" id="description" placeholder="Enter Reason Why You Report This?" name="description" /> --}}
+                                <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter Reason Why You Report This?" name="description" required ></textarea>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="title">Enter Your Name?</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter Your Name..." name="name" />
+                                <label for="title">May the Admin Contact You?</label>
+                                <input type="email" class="form-control" id="email" placeholder="Your Contact Info Eg:Email,InstaGram etc.." name="email" />
+                                <small>Your Contact Info Never Share with anybody. Stay Free</small>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="btn btn-danger float-end">Report</button>
+                            </div>
+                        </form>
+                    `);
 
                 });
                 $(document).on('submit', '#report-as', function(e) {
@@ -246,7 +254,6 @@
 
                     var reportdata = $(this).serialize();
                     reportdata += "&id="+Aid;
-                    console.log(reportdata + " ---rep");
 
                     $.ajax({
                         url: '{{route("reported")}}',
@@ -254,10 +261,20 @@
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         data: reportdata,
                         success: function(res) {
-                            console.log(res);
+                            res = $.parseJSON(res);
+                            if(res.type == 'success'){
+                                Aid=null;
+                                $('#modal-report').modal('hide');
+                                toastr.success(res.message);
+                            }else{
+                                Aid=null;
+                                toastr.error(res.message);
+                            }
                         },
                         error: function(err) {
+                            Aid=null;
                             console.error(err);
+                            toastr.error('{{ session('message') }}');
                         }
                     });
                 });

@@ -85,7 +85,9 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link @if(Route::is('report')|| Route::is('showsubassignment')) active @endif">
-              <span class="badge badge-danger left">.</span>
+              @if($report = DB::table('feedbacks')->where('type', '0')->count())
+                <span class="badge badge-danger left">.</span>
+              @endif
               <i class="nav-icon fas fa-bell"></i>
               <p>
                 Tickets
@@ -97,7 +99,9 @@
                 <a href="{{route('report')}}" class="nav-link @if(Route::is('report')) active @endif">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Report</p>
-                <span class="badge badge-info right">1</span>
+                  @if($report > 0)
+                    <span class="badge badge-info right">{{$report}}</span>
+                    @endif
                 </a>
               </li>
               <li class="nav-item">

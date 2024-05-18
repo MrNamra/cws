@@ -9,7 +9,7 @@
                 </div>
                 <form action="{{ route('postnewscontent') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" value="{{ !empty($news) ? $news->id : 'null' }}">
+                    <input type="hidden" name="id" value="{{ $news->id ?? '' }}">
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
@@ -51,21 +51,21 @@
             </div>
         </div>
     </section>
+    @error('id')
+        <div class="error">{{ $message }}</div>
+    @enderror
+    @error('newstitle')
+        <div class="error">{{ $message }}</div>
+    @enderror
+    @error('dec')
+        <div class="error">{{ $message }}</div>
+    @enderror
 @endsection
 @section('script')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
             $('#newsdec').summernote();
-            // ClassicEditor
-            // .create(document.querySelector('#newsdec'), { // Add closing parenthesis here
-            //     ckfinder: {
-            //         uploadUrl: "{{ asset('news/connector') }}?_token={{ csrf_token() }}&command=QuickUpload&type=Files&responseType=json",
-            //     }
-            // })
-            // .catch(error => {
-            //     console.error(error);
-            // });
         });
         @if (session('message'))
             toastr.success('{{ session('message') }}');

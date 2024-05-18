@@ -53,6 +53,7 @@ class NewsController extends Controller
         return view('admin.PostNews', ['news'=>$news]);
     }
     public function PostNews(Request $request) {
+        // dd($request->all()); 
         $request->validate([
             'newstitle' => 'required|string',
             'shortDec' => 'required|string',

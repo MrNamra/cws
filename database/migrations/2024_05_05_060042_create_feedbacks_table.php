@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('sender_name');
             $table->string('sender_email')->nullable();
             $table->string('title');
-            $table->text('dec');
+            $table->longtext('dec');
             $table->string('type');
             $table->timestamps();
         });
